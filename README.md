@@ -1,1 +1,1 @@
-# trainwithme_flask
+Server for weekly mashups
