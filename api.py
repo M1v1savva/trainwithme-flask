@@ -8,7 +8,7 @@ from os import environ
 import hashlib
 from dotenv import dotenv_values
 
-config = dotenv_values(".env")
+config = dotenv_values(".env.production")
 
 api = Flask(__name__)
 cors = CORS(api)
