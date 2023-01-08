@@ -47,12 +47,13 @@ def build_message(handle):
 
 @api.route('/search', methods=["POST"])
 def search_handle():
-    handle = request.json.get("handle", None)
-    rank = request_ranks([handle])[0]
-    if rank == 'no user':
-        return {"rank": rank, "message": ""}
+    return {"rank": "master", "message": "this is message"}
+    # handle = request.json.get("handle", None)
+    # rank = request_ranks([handle])[0]
+    # if rank == 'no user':
+    #     return {"rank": rank, "message": ""}
     
-    return {"rank": rank, "message": build_message(handle)}
+    # return {"rank": rank, "message": build_message(handle)}
 
 def fill_ranks(data):
     handle_list = []
