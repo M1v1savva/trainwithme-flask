@@ -85,6 +85,9 @@ def build_table_data():
     xxx=environ.get('PUBLIC_KEY')
     yyy=environ.get('SECRET_KEY')
 
+    if yyy == None: 
+        print('did not load .env')
+
     myhash='123456/contest.standings?apiKey={}&contestId=393401&showUnofficial=true&time={}#{}'.format(
         xxx, t, yyy
     )
