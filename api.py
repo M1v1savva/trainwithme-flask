@@ -20,10 +20,13 @@ standings_db = db['standings']
 
 def request_ranks(handles):
     x = requests.get('https://codeforces.com/api/user.info?handles=' + ';'.join(handles)).json()
+    print(x)
 
     status = x['status']
     
     if status != 'OK':
+        print('bad request')
+        print(x)
         return ['no user'] * len(handles)
 
     ans = []
