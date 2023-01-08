@@ -6,12 +6,15 @@ from flask_cors import CORS, cross_origin
 import requests
 from os import environ 
 import hashlib
+from dotenv import dotenv_values
+
+config = dotenv_values(".env")
 
 api = Flask(__name__)
 cors = CORS(api)
 api.config['CORS_HEADERS'] = 'Content-Type'
 
-client = pymongo.MongoClient(environ.get('MONGODB_TOKEN'))
+client = pymongo.MongoClient(config['MONGODB_TOKEN'])
 db = client.get_database('trainwithme')
 standings_db = db['standings']
 
@@ -82,8 +85,8 @@ def Sha512Hash(Password):
 def build_table_data():
     t = int(time.time())
     r = '123456'
-    xxx=environ.get('PUBLIC_KEY')
-    yyy=environ.get('SECRET_KEY')
+    xxx=config['PUBLIC_KEY']
+    yyy=config['SECRET_KEY']
 
     if yyy == None: 
         print('did not load .env')
