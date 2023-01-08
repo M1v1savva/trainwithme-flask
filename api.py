@@ -142,7 +142,7 @@ def update_database():
     for key in stat.keys():
         standings_db.update_one({'handle': key}, { "$set": { 'stat': stat[key] } })
 
-update_database()
+#update_database()
 
 @api.route('/standings', methods=["POST"])
 def get_standings():
