@@ -24,13 +24,13 @@ def request_ranks(handles):
     status = x['status']
     
     if status != 'OK':
-        return ['no user']
+        return ['no user'] * len(handles)
 
     ans = []
     user_data = x['result']
 
     for user in user_data:    
-        if 'rank' in user:
+        if 'rank' in user.keys():
             ans.append(user['rank'])
         else:
             ans.append('unrated')
@@ -38,6 +38,8 @@ def request_ranks(handles):
 
 def build_message(handle):
     res = standings_db.find_one({'handle': handle})
+    if res == None:
+        return ''
     return res['stat']
 
 @api.route('/search', methods=["POST"])
@@ -45,7 +47,7 @@ def search_handle():
     handle = request.json.get("handle", None)
     rank = request_ranks([handle])[0]
     if rank == 'no user':
-        return {"rank": rank, "message": build_message}
+        return {"rank": rank, "message": ""}
     
     return {"rank": rank, "message": build_message(handle)}
 
@@ -62,7 +64,6 @@ def fill_ranks(data):
 def fill_positions(data):
     cnt_score = dict()
     for i in range(len(data)):
-        print(data[i])
         cnt_score[data[i]["score"]] = 0
     for i in range(len(data)):
         cnt_score[data[i]["score"]] += 1
@@ -103,7 +104,7 @@ def build_table_data():
     status = x['status']
     if status != 'OK':
         print('api returned %s' % status)
-    user_data = x['result'] 
+    user_data = x['result']
     rows = user_data['rows']
     ans = []
     for row in rows:
