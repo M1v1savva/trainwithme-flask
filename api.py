@@ -47,13 +47,12 @@ def build_message(handle):
 
 @api.route('/search', methods=["POST"])
 def search_handle():
-    return {"rank": "master", "message": "this is message"}
-    # handle = request.json.get("handle", None)
-    # rank = request_ranks([handle])[0]
-    # if rank == 'no user':
-    #     return {"rank": rank, "message": ""}
+    handle = request.json.get("handle", None)
+    rank = request_ranks([handle])[0]
+    if rank == 'no user':
+        return {"rank": rank, "message": ""}
     
-    # return {"rank": rank, "message": build_message(handle)}
+    return {"rank": rank, "message": build_message(handle)}
 
 def fill_ranks(data):
     handle_list = []
@@ -145,9 +144,10 @@ def update_database():
         stat[user['handle']] = '#{} in the standings with {} out of 20 problems solved.'.format(user['position'], user['score'])
     
     for key in stat.keys():
-        standings_db.update_one({'handle': key}, { "$set": { 'stat': stat[key] } })
-
-#update_database()
+        if standings_db.find_one({'handle': key}) == None: 
+            standings_db.insert_one({'handle': key, 'stat': stat[key]})
+        else:
+            standings_db.update_one({'handle': key}, { "$set": { 'stat': stat[key] } })
 
 @api.route('/standings', methods=["POST"])
 def get_standings():
