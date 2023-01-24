@@ -42,7 +42,7 @@ def request_ranks(handles):
 def build_message(handle):
     res = standings_db.find_one({'handle': handle})
     if res == None:
-        return ''
+        return 'Has not yet participated.'
     return res['stat']
 
 @api.route('/search', methods=["POST"])
@@ -93,12 +93,12 @@ def build_table_data():
     yyy=config['SECRET_KEY']
 
     if yyy == None: 
-        print('did not load .env')
+        print('failed to load .env')
 
-    myhash='123456/contest.standings?apiKey={}&contestId=393401&showUnofficial=true&time={}#{}'.format(
+    myhash='123456/contest.standings?apiKey={}&contestId=420488&showUnofficial=true&time={}#{}'.format(
         xxx, t, yyy
     )
-    url='https://codeforces.com/api/contest.standings?contestId=393401&showUnofficial=true&apiKey={}&time={}&apiSig=123456{}'.format(
+    url='https://codeforces.com/api/contest.standings?contestId=420488&showUnofficial=true&apiKey={}&time={}&apiSig=123456{}'.format(
         xxx, t, Sha512Hash(myhash)
     )
 
